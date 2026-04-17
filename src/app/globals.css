@@ -1,0 +1,356 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: var(--font-cormorant);
+  --font-body: var(--font-lora);
+
+  --color-forest: #2D7D46;
+  --color-forest-dark: #1e5930;
+  --color-forest-light: #4a9e62;
+  --color-sage: #8fbc8f;
+  --color-sage-pale: #c8dfc8;
+  --color-cream: #faf6ef;
+  --color-ivory: #f5efe3;
+  --color-warm-white: #fffdf8;
+  --color-bark: #5c4a32;
+  --color-bark-light: #8a7055;
+  --color-amber: #c8860a;
+  --color-amber-pale: #f5dfa0;
+  --color-charcoal: #2a2318;
+  --color-mist: #e8e0d4;
+}
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
+
+  body {
+    background-color: #faf6ef;
+    color: #2a2318;
+    font-family: var(--font-lora), Georgia, serif;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-cormorant), Georgia, serif;
+    line-height: 1.15;
+    font-weight: 600;
+  }
+
+  ::selection {
+    background-color: #2D7D46;
+    color: #faf6ef;
+  }
+}
+
+/* Grain texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Scroll animations */
+[data-animate] {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-animate="fade-left"] {
+  transform: translateX(-40px);
+}
+
+[data-animate="fade-right"] {
+  transform: translateX(40px);
+}
+
+[data-animate="scale"] {
+  transform: scale(0.92);
+}
+
+[data-animate="fade"] {
+  transform: none;
+}
+
+[data-animate].in-view {
+  opacity: 1;
+  transform: translateY(0) translateX(0) scale(1);
+}
+
+[data-delay="1"] { transition-delay: 0.1s; }
+[data-delay="2"] { transition-delay: 0.2s; }
+[data-delay="3"] { transition-delay: 0.3s; }
+[data-delay="4"] { transition-delay: 0.4s; }
+[data-delay="5"] { transition-delay: 0.5s; }
+[data-delay="6"] { transition-delay: 0.6s; }
+[data-delay="7"] { transition-delay: 0.7s; }
+
+/* Decorative line */
+.decorative-rule {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.decorative-rule::before,
+.decorative-rule::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.25;
+}
+
+/* Botanical paw print decoration */
+.paw-deco {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--color-forest);
+  border-radius: 50%;
+  position: relative;
+}
+
+/* Section divider wave */
+.wave-divider {
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+/* Service card hover */
+.service-card {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 64px rgba(45, 125, 70, 0.18);
+}
+
+/* Nav link underline animation */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--color-forest);
+  transition: width 0.3s ease;
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Hero gradient overlay */
+.hero-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(42, 35, 24, 0.55) 0%,
+    rgba(45, 125, 70, 0.25) 50%,
+    rgba(42, 35, 24, 0.4) 100%
+  );
+}
+
+/* Organic blob shape */
+.blob-shape {
+  border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+}
+
+/* Gallery strip */
+.gallery-strip {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.gallery-strip::-webkit-scrollbar {
+  display: none;
+}
+
+/* Testimonial card */
+.testimonial-card {
+  position: relative;
+}
+.testimonial-card::before {
+  content: '\201C';
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: 8rem;
+  line-height: 0;
+  position: absolute;
+  top: 3rem;
+  left: 1.5rem;
+  color: var(--color-forest);
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* Floating badge animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.float-badge {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Leaf decoration */
+@keyframes sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+.sway {
+  animation: sway 6s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+/* Button styles */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--color-forest);
+  color: var(--color-cream);
+  padding: 0.875rem 2rem;
+  font-family: var(--font-lora), Georgia, serif;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1.5px solid var(--color-forest);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+.btn-primary:hover {
+  background-color: var(--color-forest-dark);
+  border-color: var(--color-forest-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(45, 125, 70, 0.3);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  color: var(--color-forest);
+  padding: 0.875rem 2rem;
+  font-family: var(--font-lora), Georgia, serif;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1.5px solid var(--color-forest);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+.btn-outline:hover {
+  background-color: var(--color-forest);
+  color: var(--color-cream);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(45, 125, 70, 0.3);
+}
+
+.btn-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--color-cream);
+  color: var(--color-forest);
+  padding: 0.875rem 2rem;
+  font-family: var(--font-lora), Georgia, serif;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1.5px solid var(--color-cream);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+.btn-light:hover {
+  background-color: transparent;
+  color: var(--color-cream);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(250, 246, 239, 0.2);
+}
+
+/* Marquee animation */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-inner {
+  animation: marquee 25s linear infinite;
+  display: flex;
+  width: max-content;
+}
+.marquee-inner:hover {
+  animation-play-state: paused;
+}
+
+/* Price tag */
+.price-tag {
+  display: inline-block;
+  background: var(--color-forest);
+  color: var(--color-cream);
+  padding: 0.25rem 0.875rem;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Organic border radius variants */
+.organic-1 { border-radius: 70% 30% 60% 40% / 40% 60% 30% 70%; }
+.organic-2 { border-radius: 40% 60% 30% 70% / 60% 40% 70% 30%; }
+.organic-3 { border-radius: 55% 45% 65% 35% / 45% 55% 35% 65%; }
+
+/* Background patterns */
+.bg-dots {
+  background-image: radial-gradient(circle, rgba(45,125,70,0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.bg-lines {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 8px,
+    rgba(45,125,70,0.04) 8px,
+    rgba(45,125,70,0.04) 9px
+  );
+}
+
+/* Text gradient */
+.text-gradient-forest {
+  background: linear-gradient(135deg, var(--color-forest) 0%, var(--color-forest-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Scroll indicator */
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0) translateX(-50%); }
+  50% { transform: translateY(8px) translateX(-50%); }
+}
+.scroll-indicator {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
